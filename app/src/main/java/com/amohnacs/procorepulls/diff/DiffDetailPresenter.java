@@ -69,6 +69,13 @@ public class DiffDetailPresenter extends BasePresenter<Contract.View> implements
         }
     }
 
+    /**
+     * Convert our raw response to a byte stream which is then read one line at a time.  We look at the
+     * first word of the line to determine it's purpose within the diff (file address, addition, or deletion).
+     * These are then added to our {@link DiffPage} object
+     * @param response
+     * @return
+     */
     private List<DiffPage> parseResponse(ResponseBody response) {
         ArrayList<DiffPage> pages = new ArrayList<>();
 
@@ -86,6 +93,7 @@ public class DiffDetailPresenter extends BasePresenter<Contract.View> implements
                 //process if it is not empty
                 if (splitLine.length >= 1) {
                     String actionFlag = splitLine[0];
+                    String contentString = splitLine.length == 2 ? splitLine[1] : "";
 
                     if (!Utils.isEmpty(actionFlag)) {
                         if (actionFlag.equals("diff")) {
@@ -94,30 +102,29 @@ public class DiffDetailPresenter extends BasePresenter<Contract.View> implements
                                 pages.add(workingDiffPage);
                             }
 
-                            workingDiffPage = new DiffPage(
-                                    splitLine.length == 2 ? splitLine[1] : "");
-                            workingDiffPage.setNegativeDiffs(new ArrayList<String>());
-                            workingDiffPage.setPositiveDiffs(new ArrayList<String>());
+                            String[] diffArr = new String[]{actionFlag, contentString};
+
+                            workingDiffPage = new DiffPage(diffArr);
+                            workingDiffPage.setNegativeDiffs(new ArrayList<String[]>());
+                            workingDiffPage.setPositiveDiffs(new ArrayList<String[]>());
 
                         } else if (actionFlag.contains("-")) {
 
                             if (workingDiffPage != null) {
-                                workingDiffPage.getNegativeDiffs().add(
-                                        splitLine.length == 2 ? splitLine[1] : ""
-                                );
+                                String[] negativeArr = new String[]{actionFlag, contentString};
+                                workingDiffPage.getNegativeDiffs().add(negativeArr);
                             }
                         } else if (actionFlag.contains("+")) {
 
                             if(workingDiffPage != null) {
-                                workingDiffPage.getPositiveDiffs().add(
-                                        splitLine.length == 2 ? splitLine[1] : ""
-                                );
+                                String[] positiveArr = new String[]{actionFlag, contentString};
+
+                                workingDiffPage.getPositiveDiffs().add(positiveArr);
                             }
                         } else if (actionFlag.equals("index")) {
                             if(workingDiffPage != null) {
-                                workingDiffPage.setIndex(
-                                        splitLine.length == 2 ? splitLine[1] : ""
-                                );
+                                String[] indexArr = new String[]{actionFlag, contentString};
+                                workingDiffPage.setIndex(indexArr);
                             }
                         }
                     }
