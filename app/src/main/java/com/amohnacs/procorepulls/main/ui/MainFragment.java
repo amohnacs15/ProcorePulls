@@ -2,7 +2,6 @@ package com.amohnacs.procorepulls.main.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,7 +67,7 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        setAdapter(view);
+        setRecyclerView(view);
         return view;
     }
 
@@ -77,7 +76,7 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
      *
      * @param view
      */
-    private void setAdapter(View view) {
+    private void setRecyclerView(View view) {
         prs = new ArrayList<>();
 
         if (view instanceof RecyclerView) {

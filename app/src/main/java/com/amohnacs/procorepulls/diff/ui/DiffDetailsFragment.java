@@ -2,19 +2,19 @@ package com.amohnacs.procorepulls.diff.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amohnacs.common.mvp.MvpFragment;
 import com.amohnacs.model.DiffPage;
+import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
+import com.amohnacs.procorepulls.diff.Contract;
+import com.amohnacs.procorepulls.diff.DiffDetailPresenter;
 import com.amohnacs.procorepulls.diff.DiffRowRecyclerViewAdapter;
-import com.amohnacs.procorepulls.diff.dummy.DummyContent;
-import com.amohnacs.procorepulls.diff.dummy.DummyContent.DummyItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +25,16 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class DiffDetailsFragment extends Fragment {
+public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contract.View> implements Contract.View {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+    public static final String DIFF_URL = "diff_url";
+    private String diffUrl;
+
     private OnListFragmentInteractionListener mListener;
     private DiffRowRecyclerViewAdapter adapter;
     private ArrayList<DiffPage> diffItems;
+
+    private DiffDetailPresenter presenter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,13 +43,13 @@ public class DiffDetailsFragment extends Fragment {
     public DiffDetailsFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
-    public static DiffDetailsFragment newInstance(int columnCount) {
+    public static DiffDetailsFragment newInstance(String gitDiffUrl) {
         DiffDetailsFragment fragment = new DiffDetailsFragment();
+
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(DIFF_URL, gitDiffUrl);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -57,30 +58,17 @@ public class DiffDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            diffUrl = getArguments().getString(DIFF_URL);
         }
+
+        presenter = DiffDetailPresenter.getInstance(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_diffrow, container, false);
-
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            diffItems = new ArrayList<>();
-
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-
-            adapter = new DiffRowRecyclerViewAdapter(diffItems, mListener);
-            recyclerView.setAdapter();
-        }
+        setRecyclerView(view);
         return view;
     }
 
@@ -102,6 +90,47 @@ public class DiffDetailsFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public DiffDetailPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public Contract.View getMvpView() {
+        return this;
+    }
+
+    @Override
+    public void updateList(List<DiffPage> items) {
+        if (diffItems.size() > 0) {
+            diffItems.clear();
+        }
+        diffItems.addAll(items);
+
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void displayError(String message) {
+
+    }
+
+    public void setRecyclerView(View view) {
+        // Set the adapter
+        if (view instanceof RecyclerView) {
+            diffItems = new ArrayList<>();
+
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            adapter = new DiffRowRecyclerViewAdapter(diffItems, mListener);
+            // TODO: 4/18/18  recyclerView.setAdapter();
+            presenter.getDiffs(diffUrl);
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -114,6 +143,6 @@ public class DiffDetailsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(PullRequest item);
     }
 }

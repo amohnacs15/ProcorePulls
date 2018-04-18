@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.amohnacs.model.DiffPage;
 import com.amohnacs.procorepulls.R;
 import com.amohnacs.procorepulls.diff.ui.DiffDetailsFragment.OnListFragmentInteractionListener;
-import com.amohnacs.procorepulls.diff.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
@@ -38,6 +37,7 @@ public class DiffRowRecyclerViewAdapter extends RecyclerView.Adapter<DiffRowRecy
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
+        /*
         holder.mIdView.setText(mValues.get(position).id);
         holder.mContentView.setText(mValues.get(position).content);
 
@@ -51,6 +51,7 @@ public class DiffRowRecyclerViewAdapter extends RecyclerView.Adapter<DiffRowRecy
                 }
             }
         });
+        */
     }
 
     @Override
@@ -67,8 +68,8 @@ public class DiffRowRecyclerViewAdapter extends RecyclerView.Adapter<DiffRowRecy
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = view.findViewById(R.id.id);
+            mContentView = view.findViewById(R.id.content);
         }
 
         @Override

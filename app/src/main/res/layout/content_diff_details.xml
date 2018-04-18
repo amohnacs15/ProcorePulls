@@ -8,12 +8,10 @@
     tools:context="com.amohnacs.procorepulls.diff.ui.DiffDetailsActivity"
     tools:showIn="@layout/activity_diff_details">
 
-    <fragment
-        android:id="@+id/profile_fragment"
-        android:name="com.amohnacs.procorepulls.diff.ui.DiffDetailsFragment"
+    <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:layout="@layout/fragment_main" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 </android.support.v4.widget.NestedScrollView>

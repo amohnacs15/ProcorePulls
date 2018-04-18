@@ -1,10 +1,13 @@
 package com.amohnacs.procorepulls.main.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
+import com.amohnacs.procorepulls.diff.ui.DiffDetailsActivity;
+import com.amohnacs.procorepulls.diff.ui.DiffDetailsFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnListFragmentInteractionListener{
 
@@ -16,6 +19,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLi
 
     @Override
     public void onListFragmentInteraction(PullRequest item) {
-        //no op
+        Intent intent = new Intent(this, DiffDetailsActivity.class);
+        intent.putExtra(DiffDetailsFragment.DIFF_URL, item.getDiffUrl());
+        startActivity(intent);
     }
 }
