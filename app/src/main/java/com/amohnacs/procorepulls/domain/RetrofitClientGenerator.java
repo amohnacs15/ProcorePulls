@@ -49,7 +49,7 @@ public class RetrofitClientGenerator {
         gsonBuilder.serializeNulls();
 
         Gson myGson = gsonBuilder
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .setDateFormat("yyyy-MM-dd")
                 .create();
 
 

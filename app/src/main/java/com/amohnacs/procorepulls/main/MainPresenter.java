@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 
 import com.amohnacs.common.mvp.BasePresenter;
 import com.amohnacs.model.PullRequest;
+import com.amohnacs.model.State;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,8 +54,14 @@ public class MainPresenter extends BasePresenter<Contract.View> implements Contr
             }
         } else {
             //successful response
+            ArrayList<PullRequest> openList = new ArrayList<>();
+            for (PullRequest pr : response) {
+                if (pr.getState() == State.OPEN) {
+                    openList.add(pr);
+                }
+            }
             if(isViewAttached()) {
-                getMvpView().updateList(response);
+                getMvpView().updateList(openList);
             }
         }
     }

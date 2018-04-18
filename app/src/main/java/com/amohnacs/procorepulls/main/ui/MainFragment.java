@@ -3,6 +3,7 @@ package com.amohnacs.procorepulls.main.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amohnacs.common.mvp.MvpFragment;
 import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
 import com.amohnacs.procorepulls.main.Contract;
@@ -25,7 +27,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MainFragment extends Fragment implements Contract.View {
+public class MainFragment extends MvpFragment<MainPresenter, Contract.View> implements Contract.View {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
@@ -86,8 +88,11 @@ public class MainFragment extends Fragment implements Contract.View {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            adapter = new MainPullRequestAdapter(prs, mListener);
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+
+            adapter = new MainPullRequestAdapter(getActivity(), prs, mListener);
             recyclerView.setAdapter(adapter);
+            //get our data yo!
             presenter.getPullRequests();
         }
     }
@@ -112,10 +117,10 @@ public class MainFragment extends Fragment implements Contract.View {
 
     @Override
     public void updateList(List<PullRequest> items) {
-        if (items.size() > 0) {
+        if (prs.size() > 0) {
             prs.clear();
         }
-        items.addAll(items);
+        prs.addAll(items);
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();
@@ -125,6 +130,16 @@ public class MainFragment extends Fragment implements Contract.View {
     @Override
     public void displayError(String message) {
 
+    }
+
+    @Override
+    public MainPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public Contract.View getMvpView() {
+        return this;
     }
 
     /**
