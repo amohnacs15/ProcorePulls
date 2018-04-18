@@ -3,7 +3,7 @@ package com.amohnacs.procorepulls.diff;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.amohnacs.model.DiffPage;
+import com.amohnacs.model.ProperDiffRow;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public interface Contract {
     }
 
     interface View {
-        void updateList(List<DiffPage> items);
+        void updateList(List<ProperDiffRow> items);
         void displayError(String message);
     }
 }

@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.amohnacs.model.DiffPage;
+import com.amohnacs.model.ProperDiffRow;
 import com.amohnacs.procorepulls.R;
 import com.amohnacs.procorepulls.diff.ui.DiffDetailsFragment.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +21,10 @@ import java.util.List;
  */
 public class DiffRowRecyclerViewAdapter extends RecyclerView.Adapter<DiffRowRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DiffPage> mValues;
+    private final List<ProperDiffRow> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public DiffRowRecyclerViewAdapter(List<DiffPage> items, OnListFragmentInteractionListener listener) {
+    public DiffRowRecyclerViewAdapter(ArrayList<ProperDiffRow> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -63,7 +65,7 @@ public class DiffRowRecyclerViewAdapter extends RecyclerView.Adapter<DiffRowRecy
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DiffPage mItem;
+        public ProperDiffRow mItem;
 
         public ViewHolder(View view) {
             super(view);

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.amohnacs.common.mvp.MvpFragment;
 import com.amohnacs.model.DiffPage;
+import com.amohnacs.model.ProperDiffRow;
 import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
 import com.amohnacs.procorepulls.diff.Contract;
@@ -32,7 +33,7 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
 
     private OnListFragmentInteractionListener mListener;
     private DiffRowRecyclerViewAdapter adapter;
-    private ArrayList<DiffPage> diffItems;
+    private ArrayList<ProperDiffRow> diffItems;
 
     private DiffDetailPresenter presenter;
 
@@ -101,7 +102,7 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
     }
 
     @Override
-    public void updateList(List<DiffPage> items) {
+    public void updateList(List<ProperDiffRow> items) {
         if (diffItems.size() > 0) {
             diffItems.clear();
         }
