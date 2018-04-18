@@ -1,17 +1,20 @@
 package com.amohnacs.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by adrianmohnacs on 4/17/18.
  */
 
 public enum State {
 
-    OPEN("open"),
-    CLOSED("closed"),
-    ALL("all");
-
-    private final String value;
-
+    @SerializedName("open")
+    OPEN,
+    @SerializedName("closed")
+    CLOSED,
+    @SerializedName("all")
+    ALL;
+/*
     State(final String text) {
         this.value = text;
     }
@@ -20,4 +23,5 @@ public enum State {
     public String toString() {
         return value.toString();
     }
+    */
 }

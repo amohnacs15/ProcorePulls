@@ -1,13 +1,18 @@
 package com.amohnacs.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by adrianmohnacs on 4/17/18.
  */
 
-class Label {
+public class Label {
 
+    @SerializedName("name")
     private String name;
+    @SerializedName("color")
     private String color;
+    @SerializedName("default")
     private boolean isDefault;
 
     public Label() {
