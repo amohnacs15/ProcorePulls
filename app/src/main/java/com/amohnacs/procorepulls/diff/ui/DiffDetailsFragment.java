@@ -2,11 +2,13 @@ package com.amohnacs.procorepulls.diff.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.amohnacs.common.mvp.MvpFragment;
 import com.amohnacs.model.ProperDiffRow;
@@ -28,6 +30,9 @@ import java.util.List;
 public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contract.View> implements Contract.View {
 
     public static final String DIFF_URL = "diff_url";
+    public static final String PR_TITLE = "title_url";
+
+    private String title;
     private String diffUrl;
 
     private OnListFragmentInteractionListener mListener;
@@ -43,10 +48,11 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
     public DiffDetailsFragment() {
     }
 
-    public static DiffDetailsFragment newInstance(String gitDiffUrl) {
+    public static DiffDetailsFragment newInstance(String title, String gitDiffUrl) {
         DiffDetailsFragment fragment = new DiffDetailsFragment();
 
         Bundle args = new Bundle();
+        args.putString(PR_TITLE, title);
         args.putString(DIFF_URL, gitDiffUrl);
         fragment.setArguments(args);
 
@@ -58,10 +64,17 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
+            title = getArguments().getString(PR_TITLE);
             diffUrl = getArguments().getString(DIFF_URL);
         }
 
         presenter = DiffDetailPresenter.getInstance(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getDiffs(diffUrl);
     }
 
     @Override
@@ -102,6 +115,7 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
 
     @Override
     public void updateList(List<ProperDiffRow> items) {
+
         if (diffItems.size() > 0) {
             diffItems.clear();
         }
@@ -114,7 +128,7 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
 
     @Override
     public void displayError(String message) {
-
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 
     public void setRecyclerView(View view) {

@@ -2,6 +2,7 @@ package com.amohnacs.procorepulls.main.ui;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.amohnacs.common.mvp.MvpFragment;
 import com.amohnacs.model.PullRequest;
@@ -91,7 +93,7 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
 
             adapter = new MainPullRequestAdapter(getActivity(), prs, mListener);
             recyclerView.setAdapter(adapter);
-            //get our data yo!
+
             presenter.getPullRequests();
         }
     }
@@ -128,7 +130,7 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
 
     @Override
     public void displayError(String message) {
-
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amohnacs.common.Utils;
 import com.amohnacs.model.Label;
 import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
@@ -47,8 +48,10 @@ public class MainPullRequestAdapter extends RecyclerView.Adapter<PRViewHolder> {
         if (currentItem != null) {
             holder.setTitle(currentItem.getTitle());
 
-            Label label = currentItem.getLabels().get(0);
-            holder.setLabelTextView(label.getName(), label.getColor());
+            if (!Utils.isEmpty(currentItem.getLabels())) {
+                Label label = currentItem.getLabels().get(0);
+                holder.setLabelTextView(label.getName(), label.getColor());
+            }
 
             holder.setCreatedString(context, currentItem.getId(), currentItem.getCreatedDate(),
                     currentItem.getAssignee() != null ? currentItem.getAssignee().getLogin() : "unknown");

@@ -8,6 +8,7 @@
         android:id="@+id/irrelevant_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/defaultPadding"/>
+        android:paddingStart="@dimen/defaultPadding"
+        android:paddingEnd="@dimen/defaultPadding"/>
 
 </android.support.constraint.ConstraintLayout>

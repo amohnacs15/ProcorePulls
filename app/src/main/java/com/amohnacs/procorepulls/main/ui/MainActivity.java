@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLi
     @Override
     public void onListFragmentInteraction(PullRequest item) {
         Intent intent = new Intent(this, DiffDetailsActivity.class);
+        intent.putExtra(DiffDetailsFragment.PR_TITLE, item.getTitle());
         intent.putExtra(DiffDetailsFragment.DIFF_URL, item.getDiffUrl());
         startActivity(intent);
     }
