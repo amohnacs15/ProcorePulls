@@ -2,6 +2,8 @@ package com.amohnacs.model;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,15 +11,23 @@ import java.util.List;
  * Created by adrianmohnacs on 4/17/18.
  */
 
-class PullRequest {
+public class PullRequest {
 
+    @SerializedName("url")
     private String url;
+    @SerializedName("id")
     private long id;
+    @SerializedName("diff_url")
     private String diffUrl;
+    @SerializedName("state")
     private State state;
+    @SerializedName("title")
     private String title;
+    @SerializedName("created_at")
     private Date createdDate;
+    @SerializedName("assignee")
     private Assignee assignee;
+    @SerializedName("labels")
     private List<Label> labels;
 
     public PullRequest(String url, long id, @NonNull String diffUrl) {
