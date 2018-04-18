@@ -50,7 +50,7 @@ public class MainPresenter extends BasePresenter<Contract.View> implements Contr
     public void onResponse(@Nullable List<PullRequest> response, @NonNull boolean hasError, @Nullable Throwable t) {
         if (hasError) {
             if (isViewAttached()) {
-                getMvpView().displayError(t.getMessage());
+                getMvpView().displayError(t != null ? t.getMessage() : "Response not successful, see log");
             }
         } else {
             //successful response

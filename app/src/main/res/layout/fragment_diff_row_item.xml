@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="@dimen/defaultElevation"
+    android:layout_margin="@dimen/defaultPadding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/page_title_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/halfPadding"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textStyle="bold"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:name="com.amohnacs.procorepulls.main.ui.MainFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/fragment_diff_row_split" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -7,11 +7,10 @@
     tools:context="com.amohnacs.procorepulls.main.ui.MainActivity">
 
     <fragment
-        android:id="@+id/profile_fragment"
+        android:id="@+id/main_fragment"
         android:name="com.amohnacs.procorepulls.main.ui.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         tools:layout="@layout/fragment_main" />
 

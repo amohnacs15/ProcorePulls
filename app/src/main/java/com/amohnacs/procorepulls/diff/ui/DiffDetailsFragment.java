@@ -1,10 +1,8 @@
-package com.amohnacs.procorepulls.main.ui;
+package com.amohnacs.procorepulls.diff.ui;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,11 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.amohnacs.common.mvp.MvpFragment;
+import com.amohnacs.model.ProperDiffRow;
 import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
-import com.amohnacs.procorepulls.main.Contract;
-import com.amohnacs.procorepulls.main.MainPresenter;
-import com.amohnacs.procorepulls.main.MainPullRequestAdapter;
+import com.amohnacs.procorepulls.diff.Contract;
+import com.amohnacs.procorepulls.diff.DiffDetailPresenter;
+import com.amohnacs.procorepulls.diff.DiffAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,29 +27,35 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MainFragment extends MvpFragment<MainPresenter, Contract.View> implements Contract.View {
+public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contract.View> implements Contract.View {
 
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    private int mColumnCount = 1;
+    public static final String DIFF_URL = "diff_url";
+    public static final String PR_TITLE = "title_url";
+
+    private String title;
+    private String diffUrl;
+
     private OnListFragmentInteractionListener mListener;
+    private DiffAdapter adapter;
+    private ArrayList<ProperDiffRow> diffItems;
 
-    private MainPresenter presenter;
-
-    private ArrayList<PullRequest> prs;
-    private MainPullRequestAdapter adapter;
+    private DiffDetailPresenter presenter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MainFragment() {
+    public DiffDetailsFragment() {
     }
 
-    public static MainFragment newInstance(int columnCount) {
-        MainFragment fragment = new MainFragment();
+    public static DiffDetailsFragment newInstance(String title, String gitDiffUrl) {
+        DiffDetailsFragment fragment = new DiffDetailsFragment();
+
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putString(PR_TITLE, title);
+        args.putString(DIFF_URL, gitDiffUrl);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -58,44 +63,26 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = MainPresenter.getInstance(getActivity());
-
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            title = getArguments().getString(PR_TITLE);
+            diffUrl = getArguments().getString(DIFF_URL);
         }
+
+        presenter = DiffDetailPresenter.getInstance(getActivity());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getDiffs(diffUrl);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_diff_row, container, false);
         setRecyclerView(view);
         return view;
-    }
-
-    /**
-     * Set adapter
-     *
-     * @param view
-     */
-    private void setRecyclerView(View view) {
-        prs = new ArrayList<>();
-
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-
-            adapter = new MainPullRequestAdapter(getActivity(), prs, mListener);
-            recyclerView.setAdapter(adapter);
-
-            presenter.getPullRequests();
-        }
     }
 
 
@@ -117,11 +104,22 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
     }
 
     @Override
-    public void updateList(List<PullRequest> items) {
-        if (prs.size() > 0) {
-            prs.clear();
+    public DiffDetailPresenter getPresenter() {
+        return presenter;
+    }
+
+    @Override
+    public Contract.View getMvpView() {
+        return this;
+    }
+
+    @Override
+    public void updateList(List<ProperDiffRow> items) {
+
+        if (diffItems.size() > 0) {
+            diffItems.clear();
         }
-        prs.addAll(items);
+        diffItems.addAll(items);
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();
@@ -133,14 +131,19 @@ public class MainFragment extends MvpFragment<MainPresenter, Contract.View> impl
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public MainPresenter getPresenter() {
-        return presenter;
-    }
+    public void setRecyclerView(View view) {
+        // Set the adapter
+        if (view instanceof RecyclerView) {
+            diffItems = new ArrayList<>();
 
-    @Override
-    public Contract.View getMvpView() {
-        return this;
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            adapter = new DiffAdapter(context, diffItems);
+            recyclerView.setAdapter(adapter);
+
+            presenter.getDiffs(diffUrl);
+        }
     }
 
     /**

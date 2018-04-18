@@ -21,7 +21,7 @@ public class RetrofitClientGenerator {
     private static final String TAG = RetrofitClientGenerator.class.getSimpleName();
 
     // https://api.github.com/repos/HabitRPG/habitica/pulls
-    private static final String GITHUB_REPOS_ENDPOINT = "https://api.github.com/repos/";
+    private static final String GITHUB_REPOS_ENDPOINT = "https://api.github.com/";
 
     static Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
             .baseUrl(GITHUB_REPOS_ENDPOINT)

@@ -11,13 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.ui.MainActivity"
+        <activity
+            android:name=".main.ui.MainActivity"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".diff.ui.DiffDetailsActivity"
+            android:label="@string/title_activity_diff_details"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.amohnacs.procorepulls.main.ui.MainActivity" />
         </activity>
     </application>
 

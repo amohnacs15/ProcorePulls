@@ -4,4 +4,8 @@
     <dimen name="defaultPadding">8dp</dimen>
     <dimen name="icon_size">24dp</dimen>
     <dimen name="doublePadding">16dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="halfPadding">4dp</dimen>
+    <dimen name="defaultElevation">4dp</dimen>
 </resources>
