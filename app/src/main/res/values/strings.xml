@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">ProcorePulls</string>
     <string name="created_string">#%1d opened on %2s by %3s</string>
+    <string name="title_activity_diff_details">DiffDetailsActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>
