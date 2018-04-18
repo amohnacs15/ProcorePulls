@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="procorange">#F27F49</color>
+
+    <color name="gitGreen">#E7FFEE</color>
+    <color name="gitRed">#FFEEF0</color>
+    <color name="gitBackground">#FAFBFC</color>
 </resources>

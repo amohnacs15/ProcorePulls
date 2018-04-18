@@ -9,13 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.amohnacs.common.mvp.MvpFragment;
-import com.amohnacs.model.DiffPage;
 import com.amohnacs.model.ProperDiffRow;
 import com.amohnacs.model.PullRequest;
 import com.amohnacs.procorepulls.R;
 import com.amohnacs.procorepulls.diff.Contract;
 import com.amohnacs.procorepulls.diff.DiffDetailPresenter;
-import com.amohnacs.procorepulls.diff.DiffRowRecyclerViewAdapter;
+import com.amohnacs.procorepulls.diff.DiffAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
     private String diffUrl;
 
     private OnListFragmentInteractionListener mListener;
-    private DiffRowRecyclerViewAdapter adapter;
+    private DiffAdapter adapter;
     private ArrayList<ProperDiffRow> diffItems;
 
     private DiffDetailPresenter presenter;
@@ -68,7 +67,7 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_diffrow, container, false);
+        View view = inflater.inflate(R.layout.fragment_diff_row, container, false);
         setRecyclerView(view);
         return view;
     }
@@ -126,8 +125,9 @@ public class DiffDetailsFragment extends MvpFragment<DiffDetailPresenter, Contra
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            adapter = new DiffRowRecyclerViewAdapter(diffItems, mListener);
-            // TODO: 4/18/18  recyclerView.setAdapter();
+            adapter = new DiffAdapter(context, diffItems);
+            recyclerView.setAdapter(adapter);
+
             presenter.getDiffs(diffUrl);
         }
     }

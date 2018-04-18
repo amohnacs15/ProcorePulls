@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.amohnacs.common.Utils;
 import com.amohnacs.common.mvp.BasePresenter;
-import com.amohnacs.model.DiffPage;
 import com.amohnacs.model.ProperDiffRow;
 
 import java.io.BufferedReader;
