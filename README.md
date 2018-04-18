@@ -3,6 +3,7 @@ Our team uses GitHub for our code repository and code review. GitHub also allows
 
 Using the MVP design pattern and Retrofit.
 
-Due to time constraints a few things are missing:
+a few things are missing:
 1. indeterminate progress
 2. error states
+3. using saveInstanceState and serializable (parcelable for improved efficiency) to limit network calls on orientation change
