@@ -22,4 +22,5 @@ a few things are missing (I plan to circle back to these when I have time):
 2. error states
 3. using saveInstanceState and serializable (parcelable for improved efficiency) to limit network calls on orientation change
 
-Please let me know if you have any questions, comments, or concerns.  I can be reached at amohnacs@gmail.com!
+![screenshot_20180419-124916](https://user-images.githubusercontent.com/7444521/39014874-687fa858-43d0-11e8-8668-30b53ccc9981.png)
+![screenshot_20180419-124949](https://user-images.githubusercontent.com/7444521/39014879-6beb4af6-43d0-11e8-9276-69862bfaaa30.png)
